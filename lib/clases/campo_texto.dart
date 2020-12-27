@@ -6,18 +6,22 @@ class CampoTexto extends StatelessWidget{
   final String encabezado;
   final Icon icono;
   final bool oculto;
+  final FormFieldSetter<String> onSaved;
+  final FormFieldValidator<String> validator;
 
   CampoTexto({
     this.encabezado,
     this.icono,
-    this.oculto
+    this.oculto,
+    this.onSaved,
+    this.validator
   });
 
   @override
   Widget build(BuildContext context){
     return Container(
-      height: 140,
-      padding: EdgeInsets.all(15),
+      height: 145,
+      padding: EdgeInsets.only(left: 15, bottom: 15, right: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -44,10 +48,6 @@ class CampoTexto extends StatelessWidget{
                 ),
                 padding: EdgeInsets.only(left: 10, right: 10),
               ),
-              hintStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20
-              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(
@@ -63,6 +63,8 @@ class CampoTexto extends StatelessWidget{
                 ),
               ),
             ),
+            onSaved: onSaved,
+            validator: validator,
           ),
         ],
       ),

@@ -39,29 +39,6 @@ class PruebaState extends State<IniciarPrueba>{
     'Casi todos los días',
   ];
 
-  void responde(int iRespuesta){
-    setState(() {
-      int n = _preguntas.length - 1;
-      if(_noPregunta <  n){
-        _noPregunta++;
-        _puntos += iRespuesta;
-      }else if (_noPregunta == n && !_termina){
-        _puntos += iRespuesta;
-        //Activa el boton de 'Resultados'
-        _termina = true;
-      }
-    });
-  }
-  void verResultados(){
-    if(_termina){
-      Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context) => Resultados(_puntos)
-          )
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -152,10 +129,10 @@ class PruebaState extends State<IniciarPrueba>{
                     ),
                   ),
                   ///Botones
-                  BotonRespuesta(0),
-                  BotonRespuesta(1),
-                  BotonRespuesta(2),
-                  BotonRespuesta(3),
+                  _BotonRespuesta(0),
+                  _BotonRespuesta(1),
+                  _BotonRespuesta(2),
+                  _BotonRespuesta(3),
                 ],
               ),
             ),
@@ -164,17 +141,18 @@ class PruebaState extends State<IniciarPrueba>{
             Opacity(
               opacity: _termina ? 1.0 : 0.0,
               child: FlatButton(
-                splashColor: Theme.of(context).accentColor,
+                splashColor: Theme.of(context).primaryColor,
                 height: 45,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).accentColor,
                 shape: StadiumBorder(),
                 child: Text(
                   'Ver resultados',
                   style: TextStyle(
                     fontSize: 16,
+                    color: Colors.white
                   ),
                 ),
-                onPressed: verResultados,
+                onPressed: _verResultados,
               ),
             ),
           ],
@@ -182,7 +160,7 @@ class PruebaState extends State<IniciarPrueba>{
       ),
     );
   }
-  SizedBox BotonRespuesta(int iRespuesta){
+  SizedBox _BotonRespuesta(int iRespuesta){
     return SizedBox(
         height: 60,
         width: 250,
@@ -193,11 +171,34 @@ class PruebaState extends State<IniciarPrueba>{
             shape: StadiumBorder(),
             child: Text(_respuestas[iRespuesta]),
             onPressed: (){
-              responde(iRespuesta);
+              _responde(iRespuesta);
             },
           ),
         ),
     );
+  }
+
+  void _responde(int iRespuesta){
+    setState(() {
+      int n = _preguntas.length - 1;
+      if(_noPregunta <  n){
+        _noPregunta++;
+        _puntos += iRespuesta;
+      }else if (_noPregunta == n && !_termina){
+        _puntos += iRespuesta;
+        //Activa el boton de 'Resultados'
+        _termina = true;
+      }
+    });
+  }
+  void _verResultados(){
+    if(_termina){
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+              builder: (context) => Resultados(_puntos)
+          )
+      );
+    }
   }
 
 }

@@ -30,10 +30,10 @@ class ResultadosState extends State<Resultados>{
           'visite a un psiquiatra o medico especializado para que reciba orientación y el tratamiento adecuado.';
       _tipo = 'Severo';
     }
-    guardaPrueba();
+    _guardaPrueba();
     super.initState();
   }
-  void guardaPrueba() async {
+  void _guardaPrueba() async {
     DocumentReference ref = await databaseReference.collection("pruebas")
         .add({
       'fecha': new DateTime.now(),

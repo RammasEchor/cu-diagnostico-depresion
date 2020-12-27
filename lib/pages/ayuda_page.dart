@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 ///Representa la pagina en donde se muestran los centros de ayuda
 class Ayuda extends StatelessWidget{
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,14 +99,15 @@ class Ayuda extends StatelessWidget{
               FlatButton(
                 //highlightColor: Theme.of(context).primaryColor,
                 //focusColor: Theme.of(context).accentColor,
-                splashColor: Theme.of(context).accentColor,
+                splashColor: Theme.of(context).primaryColor,
                 height: 45,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).accentColor,
                 shape: StadiumBorder(),
                 child: Text(
                   'Preguntas frecuentes',
                   style: TextStyle(
                     fontSize: 16,
+                    color: Colors.white
                   ),
                 ),
                 onPressed: (){
@@ -176,6 +178,7 @@ class CardCentroAyuda extends StatelessWidget{
 }
 ///Pantalla que contiene las preguntas mas frecuentes sobre la depresion
 class PreguntasFrecuentes extends StatelessWidget{
+
   @override
   Widget build(BuildContext context){
     return Scaffold(

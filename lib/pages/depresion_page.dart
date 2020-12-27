@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -472,7 +469,7 @@ class Informacion extends State<Depresion>{
         padding: EdgeInsets.all(10),
         child: new ListView(
           children: <Widget>[
-            titulo('Síntomas'),
+            _titulo('Síntomas'),
             Card(
               shadowColor: Theme.of(context).primaryColor,
               elevation: 3.0,
@@ -491,7 +488,7 @@ class Informacion extends State<Depresion>{
                 ),
               ),
             ),
-            titulo('Causas'),
+            _titulo('Causas'),
             Card(
               shadowColor: Theme.of(context).primaryColor,
               elevation: 3.0,
@@ -537,7 +534,7 @@ class Informacion extends State<Depresion>{
                 ),
               ),
             ),
-            titulo('Tipos de depresion'),
+            _titulo('Tipos de depresion'),
             Card(
               shadowColor: Theme.of(context).primaryColor,
               elevation: 3.0,
@@ -583,7 +580,7 @@ class Informacion extends State<Depresion>{
                 ),
               ),
             ),
-            titulo('Tratamiento'),
+            _titulo('Tratamiento'),
             Card(
               shadowColor: Theme.of(context).primaryColor,
               elevation: 3.0,
@@ -634,7 +631,8 @@ class Informacion extends State<Depresion>{
       ),
     );
   }
-  Container titulo(String texto){
+
+  Container _titulo(String texto){
     return Container(
       child: Text(
         texto,

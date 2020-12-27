@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -10,7 +9,6 @@ import 'package:diagnostico_depresion/pages/ayuda_page.dart';
 import 'package:diagnostico_depresion/pages/registro_page.dart';
 import 'package:diagnostico_depresion/pages/iniciar_sesion_page.dart';
 import 'package:diagnostico_depresion/pages/iniciar_prueba_page.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,7 +76,7 @@ class Inicio extends StatelessWidget{
             FlatButton(
               child: Text('Base de Datos'),
               onPressed: (){
-                Navigator.pushNamed(context, '/bd');
+                //Navigator.pushNamed(context, '/bd');
               },
             ),
           ],
