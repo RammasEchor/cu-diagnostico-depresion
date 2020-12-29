@@ -209,7 +209,7 @@ class RegistroState extends State<Registro>{
       formKey.currentState.save();
       print(this._sexo);
 
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) => Registro2daPage(this._usuario, this._edad, this._sexo)
           )

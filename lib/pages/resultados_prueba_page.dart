@@ -16,33 +16,6 @@ class ResultadosState extends State<Resultados>{
 
   final databaseReference = FirebaseFirestore.instance;
 
-  @override void initState() {
-    if(widget.puntos <= 15){
-      _resultados = 'Buenas noticias. En base a sus puntos obtenidos es poco '
-          'probable que padezca depresión.';
-      _tipo = 'Ninguno';
-    }else if(widget.puntos > 15 && widget.puntos <= 30){
-      _resultados = 'Como puede ver en su puntaje, puede estar experimentando '
-          'depresión. La buena noticia es que la depresion es tratable y a menudo curable.';
-      _tipo = 'Moderado';
-    }else{
-      _resultados = 'Probablemente se encuentra en un cuadro de depersión, le recomendamos que '
-          'visite a un psiquiatra o medico especializado para que reciba orientación y el tratamiento adecuado.';
-      _tipo = 'Severo';
-    }
-    _guardaPrueba();
-    super.initState();
-  }
-  void _guardaPrueba() async {
-    DocumentReference ref = await databaseReference.collection("pruebas")
-        .add({
-      'fecha': new DateTime.now(),
-      'id_usuario': 'zaY609IJfL5g8SlFSRjr',
-      'puntos': widget.puntos,
-      'tipo': _tipo,
-    });
-  }
-
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -176,5 +149,32 @@ class ResultadosState extends State<Resultados>{
         ),
       ),
     );
+  }
+
+  @override void initState() {
+    if(widget.puntos <= 15){
+      _resultados = 'Buenas noticias. En base a sus puntos obtenidos es poco '
+          'probable que padezca depresión.';
+      _tipo = 'Ninguno';
+    }else if(widget.puntos > 15 && widget.puntos <= 30){
+      _resultados = 'Como puede ver en su puntaje, puede estar experimentando '
+          'depresión. La buena noticia es que la depresion es tratable y a menudo curable.';
+      _tipo = 'Moderado';
+    }else{
+      _resultados = 'Probablemente se encuentra en un cuadro de depersión, le recomendamos que '
+          'visite a un psiquiatra o medico especializado para que reciba orientación y el tratamiento adecuado.';
+      _tipo = 'Severo';
+    }
+    _guardaPrueba();
+    super.initState();
+  }
+  void _guardaPrueba() async {
+    DocumentReference ref = await databaseReference.collection("pruebas")
+        .add({
+      'fecha': new DateTime.now(),
+      'id_usuario': 'zaY609IJfL5g8SlFSRjr',
+      'puntos': widget.puntos,
+      'tipo': _tipo,
+    });
   }
 }

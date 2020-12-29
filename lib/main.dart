@@ -9,6 +9,8 @@ import 'package:diagnostico_depresion/pages/ayuda_page.dart';
 import 'package:diagnostico_depresion/pages/registro_page.dart';
 import 'package:diagnostico_depresion/pages/iniciar_sesion_page.dart';
 import 'package:diagnostico_depresion/pages/iniciar_prueba_page.dart';
+import 'package:diagnostico_depresion/pages/historial_pruebas_page.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget{
         '/registro':(context) => Registro(),
         '/login':(context) => InicioSesion(),
         '/prueba': (context) => IniciarPrueba(),
-        '/bd': (context) => BaseDatos(),
+        '/historial':(context) => HistorialPruebas(),
       },
     );
   }
@@ -74,9 +76,9 @@ class Inicio extends StatelessWidget{
               },
             ),
             FlatButton(
-              child: Text('Base de Datos'),
+              child: Text('Historial'),
               onPressed: (){
-                //Navigator.pushNamed(context, '/bd');
+                Navigator.pushNamed(context, '/historial');
               },
             ),
           ],
