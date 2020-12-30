@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:diagnostico_depresion/pages/resultados_prueba_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class IniciarPrueba extends StatefulWidget{
   @override
@@ -12,7 +13,10 @@ class IniciarPrueba extends StatefulWidget{
 class PruebaState extends State<IniciarPrueba>{
   int _puntos = 0;
   int _noPregunta = 0;
+  String _nivel;
   bool _termina = false;
+
+  final databaseReference = FirebaseFirestore.instance;
 
   List<String> _preguntas =  [
     'Poco interés o placer en hacer las cosas',
@@ -192,13 +196,33 @@ class PruebaState extends State<IniciarPrueba>{
     });
   }
   void _verResultados(){
+
     if(_termina){
+      if(_puntos <= 15){
+         _nivel = 'Ninguno';
+      }else if(_puntos > 15 && _puntos <= 30){
+        _nivel = 'Moderado';
+      }else{
+        _nivel = 'Severo';
+      }
+      _guardaPrueba();
+
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-              builder: (context) => Resultados(_puntos)
+              builder: (context) => Resultados(puntos: _puntos, nivel: _nivel)
           )
       );
     }
+  }
+
+  void _guardaPrueba() async {
+    DocumentReference ref = await databaseReference.collection("pruebas")
+        .add({
+      'fecha': new DateTime.now(),
+      'id_usuario': 'zaY609IJfL5g8SlFSRjr',
+      'puntos': _puntos,
+      'nivel': _nivel,
+    });
   }
 
 }

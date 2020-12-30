@@ -1,20 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Resultados extends StatefulWidget{
   final int puntos;
-  Resultados(this.puntos);
+  final String nivel;
+
+  Resultados({
+    this.puntos,
+    this.nivel
+  });
 
   @override
   ResultadosState createState() => ResultadosState();
 
 }
 class ResultadosState extends State<Resultados>{
-  String _resultados;
-  String _tipo;
-
-  final databaseReference = FirebaseFirestore.instance;
+  String _mensaje;
 
   @override
   Widget build(BuildContext context){
@@ -57,7 +58,7 @@ class ResultadosState extends State<Resultados>{
             SizedBox(
               height: 90,
               child: Text(
-                _resultados,
+                _mensaje,
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -79,7 +80,7 @@ class ResultadosState extends State<Resultados>{
                     ),
                   ),
                   Text(
-                    _tipo + ': ' + widget.puntos.toString() + '\n',
+                    widget.nivel + ': ' + widget.puntos.toString() + '\n',
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -152,29 +153,16 @@ class ResultadosState extends State<Resultados>{
   }
 
   @override void initState() {
-    if(widget.puntos <= 15){
-      _resultados = 'Buenas noticias. En base a sus puntos obtenidos es poco '
+    if(widget.nivel == 'Ninguno'){
+      _mensaje = 'Buenas noticias. En base a sus puntos obtenidos es poco '
           'probable que padezca depresión.';
-      _tipo = 'Ninguno';
-    }else if(widget.puntos > 15 && widget.puntos <= 30){
-      _resultados = 'Como puede ver en su puntaje, puede estar experimentando '
+    }else if(widget.nivel == 'Moderado'){
+      _mensaje = 'Como puede ver en su puntaje, puede estar experimentando '
           'depresión. La buena noticia es que la depresion es tratable y a menudo curable.';
-      _tipo = 'Moderado';
     }else{
-      _resultados = 'Probablemente se encuentra en un cuadro de depersión, le recomendamos que '
+      _mensaje = 'Probablemente se encuentra en un cuadro de depersión, le recomendamos que '
           'visite a un psiquiatra o medico especializado para que reciba orientación y el tratamiento adecuado.';
-      _tipo = 'Severo';
     }
-    _guardaPrueba();
     super.initState();
-  }
-  void _guardaPrueba() async {
-    DocumentReference ref = await databaseReference.collection("pruebas")
-        .add({
-      'fecha': new DateTime.now(),
-      'id_usuario': 'zaY609IJfL5g8SlFSRjr',
-      'puntos': widget.puntos,
-      'tipo': _tipo,
-    });
   }
 }

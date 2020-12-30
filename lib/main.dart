@@ -11,7 +11,6 @@ import 'package:diagnostico_depresion/pages/iniciar_sesion_page.dart';
 import 'package:diagnostico_depresion/pages/iniciar_prueba_page.dart';
 import 'package:diagnostico_depresion/pages/historial_pruebas_page.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
