@@ -204,6 +204,7 @@ class RegistroState extends State<Registro>{
       ),
     );
   }
+
   void _registroSegundaParte(BuildContext context){
     if(formKey.currentState.validate()){
       formKey.currentState.save();

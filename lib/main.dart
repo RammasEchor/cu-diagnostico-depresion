@@ -17,6 +17,7 @@ void main() async {
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget{
+  String _idUsuario = 'zaY609IJfL5g8SlFSRjr';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,19 +29,23 @@ class MyApp extends StatelessWidget{
       title: 'Diagnostico Depresion',
       initialRoute: '/',
       routes: {
-        '/': (context) => Inicio(),
+        '/': (context) => Inicio(_idUsuario),
         '/depresion': (context) => Depresion(),
         '/ayuda': (context) => Ayuda(),
         '/preguntasFrec':(context) => PreguntasFrecuentes(),
         '/registro':(context) => Registro(),
         '/login':(context) => InicioSesion(),
-        '/prueba': (context) => IniciarPrueba(),
-        '/historial':(context) => HistorialPruebas(),
+        '/prueba': (context) => IniciarPrueba(_idUsuario),
+        '/historial':(context) => HistorialPruebas(_idUsuario),
       },
     );
   }
 }
 class Inicio extends StatelessWidget{
+  final idUsuario;
+
+  Inicio(this.idUsuario);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,13 +76,13 @@ class Inicio extends StatelessWidget{
             FlatButton(
               child: Text('Iniciar Prueba'),
               onPressed: (){
-                Navigator.pushNamed(context, '/prueba');
+                Navigator.pushNamed(context, '/prueba', arguments: idUsuario);
               },
             ),
             FlatButton(
               child: Text('Historial'),
               onPressed: (){
-                Navigator.pushNamed(context, '/historial');
+                Navigator.pushNamed(context, '/historial', arguments: idUsuario);
               },
             ),
           ],

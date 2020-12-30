@@ -4,6 +4,10 @@ import 'package:diagnostico_depresion/pages/resultados_prueba_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class IniciarPrueba extends StatefulWidget{
+  final String idUsuario;
+
+  IniciarPrueba(this.idUsuario);
+
   @override
   State<StatefulWidget> createState() {
     return PruebaState();
@@ -219,7 +223,7 @@ class PruebaState extends State<IniciarPrueba>{
     DocumentReference ref = await databaseReference.collection("pruebas")
         .add({
       'fecha': new DateTime.now(),
-      'id_usuario': 'zaY609IJfL5g8SlFSRjr',
+      'id_usuario': widget.idUsuario,
       'puntos': _puntos,
       'nivel': _nivel,
     });
