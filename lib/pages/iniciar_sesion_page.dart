@@ -107,7 +107,7 @@ class InicioSesionState extends State<InicioSesion>{
           getPassword().then((value){
             password = value;
             if(_password == password){
-              Navigator.pushReplacementNamed(context, '/',
+              Navigator.pushReplacementNamed(context, '/inicio',
                   arguments: {'idUsuario': _idUsuario
                     /*, 'nombre': parametros['nombre'].toString()*/});
             }

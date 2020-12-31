@@ -27,7 +27,6 @@ class Registro2daPageState extends State<Registro2daPage>{
     final Map parametros = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      appBar: AppBar(),
       body: new ListView(
         children: [
           Column(
@@ -91,7 +90,7 @@ class Registro2daPageState extends State<Registro2daPage>{
         if(value.isNotEmpty){
           _idUsuario = value[0].id.toString();
 
-          Navigator.pushReplacementNamed(context, '/',
+          Navigator.pushReplacementNamed(context, '/inicio',
               arguments: {'idUsuario': _idUsuario
                 /*, 'nombre': parametros['nombre'].toString()*/});
         }

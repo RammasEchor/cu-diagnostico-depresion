@@ -29,7 +29,7 @@ class ResultadosState extends State<Resultados>{
                     size: 25,
                   ),
                   onPressed: (){
-                    Navigator.pushReplacementNamed(context, '/');
+                    Navigator.pushReplacementNamed(context, '/inicio');
                   }
               ),
             ),

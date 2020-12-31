@@ -234,7 +234,7 @@ class PruebaState extends State<IniciarPrueba>{
             'visite a un psiquiatra o medico especializado para que reciba orientación y el tratamiento adecuado.';
       }
 
-      Navigator.of(context).pushReplacementNamed('/resultados',
+      Navigator.pushReplacementNamed(context, '/resultados',
           arguments: {'puntos': _puntos, 'nivel': _nivel, 'mensaje': mensaje});
     }
   }

@@ -208,7 +208,7 @@ class RegistroState extends State<Registro>{
   void _registroSegundaParte(BuildContext context){
     if(formKey.currentState.validate()){
       formKey.currentState.save();
-      Navigator.of(context).pushNamed('/registro2page',
+      Navigator.pushReplacementNamed(context, '/registro2page',
           arguments: {'nombre': _nombre, 'edad': _edad, 'sexo': _sexo});
     }
   }
