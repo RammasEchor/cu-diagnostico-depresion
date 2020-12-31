@@ -2,23 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Resultados extends StatefulWidget{
-  final int puntos;
-  final String nivel;
-
-  Resultados({
-    this.puntos,
-    this.nivel
-  });
 
   @override
   ResultadosState createState() => ResultadosState();
-
 }
 class ResultadosState extends State<Resultados>{
-  String _mensaje;
-
   @override
   Widget build(BuildContext context){
+
+    final Map parametros = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(10),
@@ -58,7 +51,7 @@ class ResultadosState extends State<Resultados>{
             SizedBox(
               height: 90,
               child: Text(
-                _mensaje,
+                parametros['mensaje'],
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -80,7 +73,7 @@ class ResultadosState extends State<Resultados>{
                     ),
                   ),
                   Text(
-                    widget.nivel + ': ' + widget.puntos.toString() + '\n',
+                    parametros['nivel'] + ': ' + parametros['puntos'].toString() + '\n',
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -150,19 +143,5 @@ class ResultadosState extends State<Resultados>{
         ),
       ),
     );
-  }
-
-  @override void initState() {
-    if(widget.nivel == 'Ninguno'){
-      _mensaje = 'Buenas noticias. En base a sus puntos obtenidos es poco '
-          'probable que padezca depresión.';
-    }else if(widget.nivel == 'Moderado'){
-      _mensaje = 'Como puede ver en su puntaje, puede estar experimentando '
-          'depresión. La buena noticia es que la depresion es tratable y a menudo curable.';
-    }else{
-      _mensaje = 'Probablemente se encuentra en un cuadro de depersión, le recomendamos que '
-          'visite a un psiquiatra o medico especializado para que reciba orientación y el tratamiento adecuado.';
-    }
-    super.initState();
   }
 }

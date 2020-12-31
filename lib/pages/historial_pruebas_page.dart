@@ -3,9 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HistorialPruebas extends StatefulWidget{
-  final String idUsuario;
-
-  HistorialPruebas(this.idUsuario);
 
   @override
   HistorialPruebasState createState() => HistorialPruebasState();
@@ -17,6 +14,9 @@ class HistorialPruebasState extends State<HistorialPruebas>{
 
   @override
   Widget build(BuildContext context){
+
+    final Map parametros = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Historial'),
@@ -43,7 +43,7 @@ class HistorialPruebasState extends State<HistorialPruebas>{
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * .75,
               child: StreamBuilder(
-                stream: databaseReference.collection('pruebas').where('id_usuario', isEqualTo: widget.idUsuario).snapshots(),
+                stream: databaseReference.collection('pruebas').where('id_usuario', isEqualTo: parametros['idUsuario']).snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot ){
                   return new ListView.builder(
                       itemCount: snapshot.data.docs.length,

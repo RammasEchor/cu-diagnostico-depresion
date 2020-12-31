@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:diagnostico_depresion/clases/campo_texto.dart';
-import 'package:diagnostico_depresion/pages/registro_2da_parte_page.dart';
+
 
 enum sexos { femenino, masculino, otro }
 
@@ -12,8 +12,8 @@ class Registro extends StatefulWidget{
   }
 }
 class RegistroState extends State<Registro>{
-  String _usuario;
-  String _edad;
+  String _nombre;
+  int _edad;
   sexos _sexo = sexos.femenino;
 
   final formKey = GlobalKey<FormState>();
@@ -26,7 +26,7 @@ class RegistroState extends State<Registro>{
           Row(
             children: [
               Text(
-                'iniciar sesion',
+                'iniciar sesión',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -67,10 +67,10 @@ class RegistroState extends State<Registro>{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CampoTexto(
-                      encabezado: 'Nombre de usuario',
+                      encabezado: 'Nombre',
                       oculto: false,
                       icono: Icon(Icons.person_rounded),
-                      onSaved: (input) => _usuario = input,
+                      onSaved: (input) => _nombre = input,
                       validator: (input) => input.isEmpty ? "*Campo obligatorio" : null,
                     ),
                     Container(
@@ -119,7 +119,7 @@ class RegistroState extends State<Registro>{
                                 ),
                               ),
                             ),
-                            onSaved: (input) => _edad = input,
+                            onSaved: (input) => _edad = int.parse(input),
                             validator: (input) => input.isEmpty ? "*Campo obligatorio" : null,
                           ),
                         ],
@@ -208,13 +208,8 @@ class RegistroState extends State<Registro>{
   void _registroSegundaParte(BuildContext context){
     if(formKey.currentState.validate()){
       formKey.currentState.save();
-      print(this._sexo);
-
-      Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context) => Registro2daPage(this._usuario, this._edad, this._sexo)
-          )
-      );
+      Navigator.of(context).pushNamed('/registro2page',
+          arguments: {'nombre': _nombre, 'edad': _edad, 'sexo': _sexo});
     }
   }
 }

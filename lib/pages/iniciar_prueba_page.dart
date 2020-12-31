@@ -1,12 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:diagnostico_depresion/pages/resultados_prueba_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class IniciarPrueba extends StatefulWidget{
-  final String idUsuario;
-
-  IniciarPrueba(this.idUsuario);
 
   @override
   State<StatefulWidget> createState() {
@@ -46,9 +42,11 @@ class PruebaState extends State<IniciarPrueba>{
     'Más de la mitad de los días',
     'Casi todos los días',
   ];
-
   @override
   Widget build(BuildContext context){
+
+    final Map parametros  = ModalRoute.of(context).settings.arguments;
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -160,7 +158,9 @@ class PruebaState extends State<IniciarPrueba>{
                     color: Colors.white
                   ),
                 ),
-                onPressed: _verResultados,
+                onPressed: (){
+                  _verResultados(parametros);
+                }
               ),
             ),
           ],
@@ -199,36 +199,45 @@ class PruebaState extends State<IniciarPrueba>{
       }
     });
   }
-  void _verResultados(){
 
-    if(_termina){
-      if(_puntos <= 15){
-         _nivel = 'Ninguno';
-      }else if(_puntos > 15 && _puntos <= 30){
-        _nivel = 'Moderado';
-      }else{
-        _nivel = 'Severo';
-      }
-      _guardaPrueba();
-
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (context) => Resultados(puntos: _puntos, nivel: _nivel)
-          )
-      );
-    }
-  }
-
-  void _guardaPrueba() async {
+  void _guardaPrueba(Map parametros) async {
     DocumentReference ref = await databaseReference.collection("pruebas")
         .add({
       'fecha': new DateTime.now(),
-      'id_usuario': widget.idUsuario,
+      'id_usuario': parametros['idUsuario'],
       'puntos': _puntos,
       'nivel': _nivel,
     });
   }
 
+  void _verResultados(Map parametros){
+    String mensaje;
+
+    if(_termina){
+      if(_puntos <= 15){
+        _nivel = 'Ninguno';
+      }else if(_puntos > 15 && _puntos <= 30){
+        _nivel = 'Moderado';
+      }else{
+        _nivel = 'Severo';
+      }
+      _guardaPrueba(parametros);
+
+      if(_nivel == 'Ninguno'){
+        mensaje = 'Buenas noticias. En base a sus puntos obtenidos es poco '
+            'probable que padezca depresión.';
+      }else if(_nivel == 'Moderado'){
+        mensaje = 'Como puede ver en su puntaje, puede estar experimentando '
+            'depresión. La buena noticia es que la depresion es tratable y a menudo curable.';
+      }else{
+        mensaje = 'Probablemente se encuentra en un cuadro de depersión, le recomendamos que '
+            'visite a un psiquiatra o medico especializado para que reciba orientación y el tratamiento adecuado.';
+      }
+
+      Navigator.of(context).pushReplacementNamed('/resultados',
+          arguments: {'puntos': _puntos, 'nivel': _nivel, 'mensaje': mensaje});
+    }
+  }
 }
 
 

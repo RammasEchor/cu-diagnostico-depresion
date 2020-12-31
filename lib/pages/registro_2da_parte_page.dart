@@ -1,16 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:diagnostico_depresion/clases/campo_texto.dart';
-import 'package:diagnostico_depresion/pages/registro_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-class Registro2daPage extends StatefulWidget{
-  final String usuario;
-  final String edad;
-  final sexos sexo;
+import 'package:diagnostico_depresion/clases/campo_texto.dart';
 
-  Registro2daPage(this.usuario, this.edad, this.sexo);
+class Registro2daPage extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
@@ -21,13 +16,16 @@ class Registro2daPageState extends State<Registro2daPage>{
   String _correo;
   String _password;
   String _idUsuario;
+  bool _correoInvalido;
 
   final formKey = GlobalKey<FormState>();
   final databaseReference = FirebaseFirestore.instance;
 
-  bool _registroValido;
   @override
   Widget build(BuildContext context){
+
+    final Map parametros = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       appBar: AppBar(),
       body: new ListView(
@@ -70,7 +68,7 @@ class Registro2daPageState extends State<Registro2daPage>{
                         ),
                       ),
                       onPressed: (){
-                        _guardaDatos(context);
+                        _btnListo(context, parametros);
                       },
                     ),
                   ],
@@ -83,51 +81,38 @@ class Registro2daPageState extends State<Registro2daPage>{
     );
   }
 
-  void _guardaDatos(BuildContext context){
+  void _btnListo(BuildContext context, Map parametros){
     if(formKey.currentState.validate()){
       formKey.currentState.save();
-      _obtenUsuario().then((value){
-        if(value.isEmpty){
-          _registroValido = true;
-          _guardaUsuario();
-          _obtenUsuario().then((value){
-            if(value.isNotEmpty){
-              _idUsuario = value[0].id.toString();
-              Navigator.pushReplacementNamed(context, '/', arguments: _idUsuario);
-            }
-          });
-        }
-        else{
-          _registroValido = false;
-          /*Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text('Ya existe un usuario con ese correo!'),
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () {
-                // Some code to undo the change.
-              },
-            ),
-          ));
-          setState(() {
-          });*/
+
+      _guardaUsuario(parametros);
+
+      _obtenUsuario(_correo).then((value){
+        if(value.isNotEmpty){
+          _idUsuario = value[0].id.toString();
+
+          Navigator.pushReplacementNamed(context, '/',
+              arguments: {'idUsuario': _idUsuario
+                /*, 'nombre': parametros['nombre'].toString()*/});
         }
       });
     }
   }
-  Future _obtenUsuario() async{
+
+  Future _obtenUsuario(String correo) async{
     QuerySnapshot snapshot = await databaseReference.collection('usuarios')
-        .where('correo', isEqualTo: _correo).get();
+        .where('correo', isEqualTo: correo).get();
     List<QueryDocumentSnapshot> documentos = snapshot.docs;
 
     return documentos;
   }
 
-  void _guardaUsuario() async {
+  void _guardaUsuario(Map parametros) async {
     String sexo;
 
-    if(widget.sexo.index == 0)
+    if(parametros['sexo'].index == 0)
       sexo = 'femenino';
-    else if(widget.sexo.index == 1)
+    else if(parametros['sexo'].index == 1)
       sexo = 'masculino';
     else
       sexo = 'otro';
@@ -135,8 +120,8 @@ class Registro2daPageState extends State<Registro2daPage>{
     DocumentReference ref = await databaseReference.collection('usuarios')
         .add({
       'correo': _correo,
-      'edad': widget.edad,
-      'nombre': widget.usuario,
+      'edad': parametros['edad'],
+      'nombre': parametros['nombre'],
       'password': _password,
       'sexo': sexo,
     });
@@ -149,7 +134,21 @@ class Registro2daPageState extends State<Registro2daPage>{
     if (valor.isEmpty) return '*Campo obligatorio';
     if (!regex.hasMatch(valor))
       return '*Ingresa un correo valido';
-    else
-      return null;
+    else {
+      _obtenUsuario(valor).then((value){
+        if(value.isNotEmpty)
+          _correoInvalido = true;
+        else
+          _correoInvalido = false;
+      });
+      if(_correoInvalido == true){
+        return '*Ya existe un usuario con ese correo!';
+      }
+      else{
+        return null;
+      }
+    }
   }
 }
+
+
