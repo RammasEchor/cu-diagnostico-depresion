@@ -144,12 +144,13 @@ class PruebaState extends State<IniciarPrueba>{
             ),
             ///Agregamos le boton de 'Resultados'
             SizedBox(height: 50),
-            Opacity(
-              opacity: _termina ? 1.0 : 0.0,
-              child: FlatButton(
+            // Opacity(
+              // opacity: _termina ? 1.0 : 0.0,
+              // child: 
+              FlatButton(
                 splashColor: Theme.of(context).primaryColor,
                 height: 45,
-                color: Theme.of(context).accentColor,
+                color: _termina ? Theme.of(context).accentColor : Colors.grey,
                 shape: StadiumBorder(),
                 child: Text(
                   'Ver resultados',
@@ -159,10 +160,12 @@ class PruebaState extends State<IniciarPrueba>{
                   ),
                 ),
                 onPressed: (){
-                  _verResultados(parametros);
+                  if( _termina )  {
+                    _verResultados(parametros);
+                  }
                 }
               ),
-            ),
+            // ),
           ],
         ),
       ),
