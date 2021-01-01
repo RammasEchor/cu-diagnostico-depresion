@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:diagnostico_depresion/componentes/comp_export.dart';
 
+
 class InicioSesion extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -12,6 +13,21 @@ class InicioSesion extends StatefulWidget {
 class InicioSesionState extends State<InicioSesion> {
   double _width;
   bool _awaitLogin = false;
+  final c_passw = TextEditingController();
+  final c_usrnm = TextEditingController();
+
+  @override
+  void dispose() {
+    c_passw.dispose();
+    c_usrnm.dispose();
+    super.dispose();
+  }
+
+  // Login en la base de datos.
+  Future<bool> login() async {
+    await 
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +61,7 @@ class InicioSesionState extends State<InicioSesion> {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: c_usrnm,
                     decoration: InputDecoration(
                       hintText: 'Usuario',
                     ),
@@ -57,6 +74,7 @@ class InicioSesionState extends State<InicioSesion> {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: c_passw,
                     decoration: InputDecoration(
                       hintText: 'Contraseña',
                     ),
@@ -75,11 +93,11 @@ class InicioSesionState extends State<InicioSesion> {
                       text: 'Iniciar Sesión',
                       color: _awaitLogin ? Colors.orange[100] : Colors.orange,
                       onPressed: () async {
-                        setState(()  {
+                        setState(() {
                           _awaitLogin = true;
                         });
                         bool _log = await login();
-                        setState(()  {
+                        setState(() {
                           _awaitLogin = false;
                         });
                       },
