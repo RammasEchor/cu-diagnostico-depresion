@@ -10,72 +10,89 @@ import 'package:diagnostico_depresion/pages/registro_page.dart';
 import 'package:diagnostico_depresion/pages/iniciar_sesion_page.dart';
 import 'package:diagnostico_depresion/pages/iniciar_prueba_page.dart';
 
+import 'componentes/comp_export.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
-class MyApp extends StatelessWidget{
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.orange,
+        primaryColor: Colors.orange[300],
         accentColor: Colors.green,
         primarySwatch: Colors.green,
       ),
       title: 'Diagnostico Depresion',
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
         '/': (context) => Inicio(),
         '/depresion': (context) => Depresion(),
         '/ayuda': (context) => Ayuda(),
-        '/preguntasFrec':(context) => PreguntasFrecuentes(),
-        '/registro':(context) => Registro(),
-        '/login':(context) => InicioSesion(),
+        '/preguntasFrec': (context) => PreguntasFrecuentes(),
+        '/registro': (context) => Registro(),
+        '/login': (context) => InicioSesion(),
         '/prueba': (context) => IniciarPrueba(),
         '/bd': (context) => BaseDatos(),
       },
     );
   }
 }
-class Inicio extends StatelessWidget{
+
+class Inicio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Indice'),
+        centerTitle: true,
+        title: Text('Test de Depresión'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.help_outline,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/depresion');
+            },
+          ),
+        ],
       ),
+      drawer: MainDrawer(),
       body: Center(
         child: Column(
           children: <Widget>[
+            UltimaPrueba(),
             FlatButton(
               child: Text('Depresion'),
-              onPressed: (){
+              onPressed: () {
                 Navigator.pushNamed(context, '/depresion');
               },
             ),
             FlatButton(
               child: Text('Centros de ayuda'),
-              onPressed: (){
+              onPressed: () {
                 Navigator.pushNamed(context, '/ayuda');
               },
             ),
             FlatButton(
               child: Text('Registro'),
-              onPressed: (){
+              onPressed: () {
                 Navigator.pushNamed(context, '/registro');
               },
             ),
             FlatButton(
               child: Text('Iniciar Prueba'),
-              onPressed: (){
+              onPressed: () {
                 Navigator.pushNamed(context, '/prueba');
               },
             ),
             FlatButton(
               child: Text('Base de Datos'),
-              onPressed: (){
+              onPressed: () {
                 //Navigator.pushNamed(context, '/bd');
               },
             ),
@@ -107,45 +124,54 @@ class BaseDatosState extends State<BaseDatos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-      Padding(
+      body: Padding(
         padding: const EdgeInsets.all(10),
-        child:Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            TextField(controller: tf1, decoration: InputDecoration(labelText: 'Titulo del libro'),),
-            TextField(controller: tf2, decoration: InputDecoration(labelText: 'Descripcion del libro'),),
+            TextField(
+              controller: tf1,
+              decoration: InputDecoration(labelText: 'Titulo del libro'),
+            ),
+            TextField(
+              controller: tf2,
+              decoration: InputDecoration(labelText: 'Descripcion del libro'),
+            ),
             Container(
               child: StreamBuilder(
                 stream: databaseReference.collection('books').snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot ){
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   return SizedBox(
                       height: 200.0,
                       child: ListView.builder(
                           itemCount: snapshot.data.docs.length,
-                          itemBuilder: (context, index){
+                          itemBuilder: (context, index) {
                             return Container(
-                                child: Column(
-                                    children: <Widget>[
-                                      Text("Titulo: "+ snapshot.data.docs[index].data()["title"] +"\ndescripcion: "+ snapshot.data.docs[index].data()["description"]),
-                                      RaisedButton(child: Icon(Icons.delete), onPressed: (){deleteData(snapshot.data.docs[index].id);},)
-                                    ]
-                                )
-                            );
-                          }
-                      ));
-
+                                child: Column(children: <Widget>[
+                              Text("Titulo: " +
+                                  snapshot.data.docs[index].data()["title"] +
+                                  "\ndescripcion: " +
+                                  snapshot.data.docs[index]
+                                      .data()["description"]),
+                              RaisedButton(
+                                child: Icon(Icons.delete),
+                                onPressed: () {
+                                  deleteData(snapshot.data.docs[index].id);
+                                },
+                              )
+                            ]));
+                          }));
                 },
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton:FloatingActionButton(
-        onPressed:() {
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
           createRecord(tf1.text, tf2.text);
-          tf1.text="";
-          tf2.text="";
+          tf1.text = "";
+          tf2.text = "";
           setState(() {});
         },
         child: Icon(Icons.add),
@@ -153,18 +179,14 @@ class BaseDatosState extends State<BaseDatos> {
     );
   }
 
-
   void createRecord(var t, var d) async {
-    DocumentReference ref = await databaseReference.collection("books")
-        .add({
-      'title': t,
-      'description': d
-    });
-
+    DocumentReference ref = await databaseReference
+        .collection("books")
+        .add({'title': t, 'description': d});
   }
 
-  Future getData() async{
-    QuerySnapshot snapshot= await databaseReference.collection("books").get();
+  Future getData() async {
+    QuerySnapshot snapshot = await databaseReference.collection("books").get();
     return snapshot.docs;
   }
 
@@ -181,13 +203,9 @@ class BaseDatosState extends State<BaseDatos> {
 
   void deleteData(var id) {
     try {
-      databaseReference
-          .collection('books')
-          .doc(id)
-          .delete();
+      databaseReference.collection('books').doc(id).delete();
     } catch (e) {
       print(e.toString());
     }
   }
-
 }
