@@ -73,7 +73,7 @@ class PruebaState extends State<IniciarPrueba>{
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
-        child: Column(
+        child: ListView(
           children: [
             Container(
               height: 70,
