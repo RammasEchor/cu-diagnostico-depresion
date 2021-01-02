@@ -12,6 +12,7 @@ class ResultadosState extends State<Resultados> {
     final Map parametros = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
+      appBar: AppBar(),
       body: Padding(
         padding: EdgeInsets.all(10),
         child: ListView(
@@ -19,20 +20,6 @@ class ResultadosState extends State<Resultados> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //El boton de atras
-                Container(
-                  padding: EdgeInsets.only(top: 25),
-                  height: 60,
-                  child: IconButton(
-                      alignment: Alignment.centerLeft,
-                      icon: Icon(
-                        Icons.arrow_back,
-                        size: 25,
-                      ),
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/inicio');
-                      }),
-                ),
                 //Titulo
                 Container(
                   padding: EdgeInsets.only(top: 10),

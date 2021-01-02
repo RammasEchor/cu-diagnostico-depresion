@@ -19,7 +19,7 @@ class _InicioState extends State<Inicio> {
         elevation: 0.0,
         bottomOpacity: 0.0,
         iconTheme: IconThemeData(
-          color: Colors.orange,
+          color: Theme.of(context).primaryColor,
         ),
       ),
       drawer: Anvorgesa(),
@@ -29,7 +29,7 @@ class _InicioState extends State<Inicio> {
           padding: const EdgeInsets.all(16.0),
           child: IconTheme(
             data: IconThemeData(
-              color: Colors.orange,
+              color: Theme.of(context).primaryColor,
             ),
             child: Stack(
               children: [
@@ -66,7 +66,7 @@ class _InicioState extends State<Inicio> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/ayuda');
                     },
-                    fillColor: Colors.orange,
+                    fillColor: Theme.of(context).primaryColor,
                     padding: EdgeInsets.all(8.0),
                     shape: CircleBorder(),
                     child: Icon(
@@ -83,7 +83,7 @@ class _InicioState extends State<Inicio> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/depresion');
                     },
-                    fillColor: Colors.orange,
+                    fillColor: Theme.of(context).primaryColor,
                     child: Icon(
                       Icons.info_outline,
                       color: Colors.white,
@@ -104,7 +104,7 @@ class _InicioState extends State<Inicio> {
                         arguments: {'idUsuario': parametros['idUsuario']},
                       );
                     },
-                    fillColor: Colors.orange,
+                    fillColor: Theme.of(context).primaryColor,
                     child: Icon(Icons.input_outlined,
                         color: Colors.white, size: 34.0),
                     padding: EdgeInsets.all(8.0),
@@ -122,7 +122,7 @@ class _InicioState extends State<Inicio> {
                         arguments: {'idUsuario': parametros['idUsuario']},
                       );
                     },
-                    fillColor: Colors.orange,
+                    fillColor: Theme.of(context).primaryColor,
                     child: Icon(Icons.insert_chart_outlined,
                         color: Colors.white, size: 34.0),
                     padding: EdgeInsets.all(8.0),
@@ -226,7 +226,7 @@ class Anvorgesa extends StatelessWidget {
                 ],
               ),
             ),
-            color: Colors.orange,
+            color: Theme.of(context).primaryColor,
           ),
           Container(
             child: Column(
@@ -235,7 +235,7 @@ class Anvorgesa extends StatelessWidget {
                   title: Text(
                     'Login',
                     style: TextStyle(
-                      color: Colors.orange,
+                      color: Theme.of(context).primaryColor,
                       fontSize: 24.0,
                     ),
                   ),
@@ -244,7 +244,7 @@ class Anvorgesa extends StatelessWidget {
                   title: Text(
                     'Registro',
                     style: TextStyle(
-                      color: Colors.orange,
+                      color: Theme.of(context).primaryColor,
                       fontSize: 24.0,
                     ),
                   ),
@@ -253,7 +253,7 @@ class Anvorgesa extends StatelessWidget {
                   title: Text(
                     'Prueba',
                     style: TextStyle(
-                      color: Colors.orange,
+                      color: Theme.of(context).primaryColor,
                       fontSize: 24.0,
                     ),
                   ),
@@ -289,7 +289,7 @@ class TituloInicio extends StatelessWidget {
         Text(
           this.text,
           style: TextStyle(
-              color: Colors.orange,
+              color: Theme.of(context).primaryColor,
               fontSize: this.fontSize,
               fontWeight: this.fontWeight),
         ),
