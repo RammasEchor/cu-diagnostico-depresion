@@ -2,91 +2,98 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HistorialPruebas extends StatefulWidget{
-
+class HistorialPruebas extends StatefulWidget {
   @override
   HistorialPruebasState createState() => HistorialPruebasState();
-
 }
-class HistorialPruebasState extends State<HistorialPruebas>{
 
+class HistorialPruebasState extends State<HistorialPruebas> {
   final databaseReference = FirebaseFirestore.instance;
 
   @override
-  Widget build(BuildContext context){
-
+  Widget build(BuildContext context) {
     final Map parametros = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Historial'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child:Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * .10,
-              padding: EdgeInsets.only(top: 20),
-              child: Text(
-                'Pruebas realizadas',
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 26,
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * .10,
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text(
+                    'Pruebas realizadas',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 26,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * .75,
+                  child: StreamBuilder(
+                    stream: databaseReference
+                        .collection('pruebas')
+                        .where('id_usuario', isEqualTo: parametros['idUsuario'])
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      return new ListView.builder(
+                          itemCount: snapshot.data.docs.length,
+                          itemBuilder: (context, index) {
+                            return WidgetPrueba(
+                              fecha: _calculaFecha(snapshot.data.docs[index]
+                                  .data()["fecha"]
+                                  .toDate()),
+                              nivel: snapshot.data.docs[index].data()["nivel"],
+                              puntos:
+                                  snapshot.data.docs[index].data()["puntos"],
+                              id: snapshot.data.docs[index].id,
+                            );
+                          });
+                    },
+                  ),
+                ),
+              ],
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * .75,
-              child: StreamBuilder(
-                stream: databaseReference.collection('pruebas').where('id_usuario', isEqualTo: parametros['idUsuario']).snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot ){
-                  return new ListView.builder(
-                      itemCount: snapshot.data.docs.length,
-                      itemBuilder: (context, index){
-                        return WidgetPrueba(
-                          fecha: _calculaFecha(snapshot.data.docs[index].data()["fecha"].toDate()),
-                          nivel: snapshot.data.docs[index].data()["nivel"],
-                          puntos: snapshot.data.docs[index].data()["puntos"],
-                          id: snapshot.data.docs[index].id,
-                        );
-                      }
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
-  String _calculaFecha(DateTime fecha){
+
+  String _calculaFecha(DateTime fecha) {
     String formatoFecha;
-    formatoFecha = fecha.day.toString() + '/' +
-                  fecha.month.toString() + '/' +
-                  fecha.year.toString() + ' - ' +
-                  fecha.hour.toString() + ':' + fecha.minute.toString();
+    formatoFecha = fecha.day.toString() +
+        '/' +
+        fecha.month.toString() +
+        '/' +
+        fecha.year.toString() +
+        ' - ' +
+        fecha.hour.toString() +
+        ':' +
+        fecha.minute.toString();
     return formatoFecha;
   }
 }
 
-class WidgetPrueba extends StatelessWidget{
+class WidgetPrueba extends StatelessWidget {
   final String fecha;
   final String nivel;
   final int puntos;
   var id;
 
   final databaseReference = FirebaseFirestore.instance;
-  WidgetPrueba({
-    this.fecha,
-    this.nivel,
-    this.puntos,
-    this.id
-  });
+  WidgetPrueba({this.fecha, this.nivel, this.puntos, this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +101,12 @@ class WidgetPrueba extends StatelessWidget{
       child: Column(
         children: <Widget>[
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 padding: EdgeInsets.only(left: 10, top: 10),
                 width: MediaQuery.of(context).size.width * 0.80,
-                height: 60,
+                height: MediaQuery.of(context).size.height * .10,
                 child: Text(
                   fecha,
                   style: TextStyle(
@@ -108,12 +116,16 @@ class WidgetPrueba extends StatelessWidget{
                   ),
                 ),
               ),
-              Container(
-                child: IconButton(
-                  icon: Icon(Icons.delete_rounded),
-                  onPressed: (){
-                    _eliminaPrueba();
-                  },
+              Expanded(
+                child: Container(
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.delete_rounded,
+                    ),
+                    onPressed: () {
+                      _eliminaPrueba();
+                    },
+                  ),
                 ),
               )
             ],
@@ -125,9 +137,8 @@ class WidgetPrueba extends StatelessWidget{
                 padding: EdgeInsets.only(left: 10, top: 10, bottom: 15),
                 decoration: BoxDecoration(
                     border: Border(
-                      right: BorderSide(width: 2, color: Colors.grey[200]),
-                    )
-                ),
+                  right: BorderSide(width: 2, color: Colors.grey[200]),
+                )),
                 width: MediaQuery.of(context).size.width * 0.65,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +148,7 @@ class WidgetPrueba extends StatelessWidget{
                       child: Text(
                         'Nivel de depresión',
                         style: TextStyle(
-                          color: Colors.black,//Theme.of(context).primaryColor,
+                          color: Colors.black, //Theme.of(context).primaryColor,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
@@ -167,7 +178,7 @@ class WidgetPrueba extends StatelessWidget{
                       child: Text(
                         'Puntos',
                         style: TextStyle(
-                          color: Colors.black,//Theme.of(context).primaryColor,
+                          color: Colors.black, //Theme.of(context).primaryColor,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
@@ -194,12 +205,9 @@ class WidgetPrueba extends StatelessWidget{
     );
   }
 
-  void _eliminaPrueba(){
+  void _eliminaPrueba() {
     try {
-      databaseReference
-          .collection('pruebas')
-          .doc(id)
-          .delete();
+      databaseReference.collection('pruebas').doc(id).delete();
     } catch (e) {
       print(e.toString());
     }
