@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path_drawing/path_drawing.dart';
+import 'registro_page.dart';
 
 class Inicio extends StatefulWidget {
   @override
@@ -23,7 +24,10 @@ class _InicioState extends State<Inicio> {
         ),
       ),
       // Mandamos el correo para mostrarlo en en menú
-      drawer: Anvorgesa( correo: parametros['correo']),
+      drawer: Anvorgesa(
+        correo: parametros['correo'],
+        idUsuario: parametros['_idUsuario'],
+      ),
       body: CustomPaint(
         painter: CurvePainter(),
         child: Padding(
@@ -200,10 +204,12 @@ class CurvePainter extends CustomPainter {
 
 class Anvorgesa extends StatelessWidget {
   final String correo;
+  final String idUsuario;
 
   const Anvorgesa({
     Key key,
     this.correo,
+    this.idUsuario,
   }) : super(key: key);
 
   @override
@@ -236,30 +242,77 @@ class Anvorgesa extends StatelessWidget {
               children: [
                 ListTile(
                   title: Text(
-                    'Login',
+                    'Ayuda',
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontSize: 24.0,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/ayuda');
+                  },
                 ),
                 ListTile(
                   title: Text(
-                    'Registro',
+                    'Información',
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontSize: 24.0,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/depresion');
+                  },
                 ),
                 ListTile(
                   title: Text(
-                    'Prueba',
+                    'Iniciar Prueba',
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontSize: 24.0,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/prueba', arguments: {
+                      'idUsuario': this.idUsuario,
+                    });
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Historial',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/historial', arguments: {
+                      'idUsuario': this.idUsuario,
+                    });
+                  },
+                ),
+                Divider(),
+                ListTile(
+                  title: Text(
+                    'Logout',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Registro()),
+                        (route) => false);
+                  },
                 ),
               ],
             ),
