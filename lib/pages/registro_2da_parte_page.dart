@@ -91,8 +91,7 @@ class Registro2daPageState extends State<Registro2daPage>{
           _idUsuario = value[0].id.toString();
 
           Navigator.pushReplacementNamed(context, '/inicio',
-              arguments: {'idUsuario': _idUsuario
-                /*, 'nombre': parametros['nombre'].toString()*/});
+              arguments: {'idUsuario': _idUsuario, 'correo': _correo });
         }
       });
     }

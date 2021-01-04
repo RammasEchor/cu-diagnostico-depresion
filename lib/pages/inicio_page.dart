@@ -22,7 +22,8 @@ class _InicioState extends State<Inicio> {
           color: Theme.of(context).primaryColor,
         ),
       ),
-      drawer: Anvorgesa(),
+      // Mandamos el correo para mostrarlo en en menú
+      drawer: Anvorgesa( correo: parametros['correo']),
       body: CustomPaint(
         painter: CurvePainter(),
         child: Padding(
@@ -147,39 +148,37 @@ class CurvePainter extends CustomPainter {
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = 3;
 
+    // Línea a ayuda
     var start = Offset(size.width / 3.2, size.height / 2.6);
     var ctr1 = Offset(size.width / 3, size.height / 3);
     var ctr2 = Offset(size.width / 3, size.height / 5);
     var end = Offset(size.width / 4.3, size.height / 6);
     dashedLine(start, ctr1, ctr2, end, canvas, paint);
 
-    start = Offset(size.width / 1.4, size.height / 2.3 );
+    // Información
+    start = Offset(size.width / 1.4, size.height / 2.3);
     ctr1 = Offset(size.width / 1.3, size.height / 2.5);
     ctr2 = Offset(size.width / 1.2, size.height / 4);
     end = Offset(size.width / 1.4, size.height / 7);
     dashedLine(start, ctr1, ctr2, end, canvas, paint);
 
-    start = Offset(size.width / 1.8, size.height / 1.9 );
+    // Iniciar prueba
+    start = Offset(size.width / 1.8, size.height / 1.9);
     ctr1 = Offset(size.width / 1.4, size.height / 1.7);
     ctr2 = Offset(size.width / 1.4, size.height / 1.45);
     end = Offset(size.width / 1.5, size.height / 1.2);
     dashedLine(start, ctr1, ctr2, end, canvas, paint);
 
-    start = Offset(size.width / 1.8, size.height / 1.9 );
-    ctr1 = Offset(size.width / 1.4, size.height / 1.7);
-    ctr2 = Offset(size.width / 1.4, size.height / 1.45);
-    end = Offset(size.width / 1.5, size.height / 1.2);
-    dashedLine(start, ctr1, ctr2, end, canvas, paint);
-
-    start = Offset(size.width / 3.7, size.height / 1.64 );
+    // Historial
+    start = Offset(size.width / 3.7, size.height / 1.64);
     ctr1 = Offset(size.width / 3.4, size.height / 1.6);
     ctr2 = Offset(size.width / 3.2, size.height / 1.3);
     end = Offset(size.width / 4.7, size.height / 1.3);
     dashedLine(start, ctr1, ctr2, end, canvas, paint);
   }
 
-  void dashedLine(
-      Offset start, Offset ctr1, Offset ctr2, Offset end, Canvas canvas, Paint paint) {
+  void dashedLine(Offset start, Offset ctr1, Offset ctr2, Offset end,
+      Canvas canvas, Paint paint) {
     var path = Path();
     path.moveTo(start.dx, start.dy);
     path.cubicTo(ctr1.dx, ctr1.dy, ctr2.dx, ctr2.dy, end.dx, end.dy);
@@ -200,8 +199,11 @@ class CurvePainter extends CustomPainter {
 }
 
 class Anvorgesa extends StatelessWidget {
+  final String correo;
+
   const Anvorgesa({
     Key key,
+    this.correo,
   }) : super(key: key);
 
   @override
@@ -216,7 +218,8 @@ class Anvorgesa extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'Menú',
+                    this.correo,
+                    textAlign: TextAlign.right,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 34.0,
