@@ -228,7 +228,7 @@ class Anvorgesa extends StatelessWidget {
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 34.0,
+                      fontSize: 25.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

@@ -442,7 +442,7 @@ class Informacion extends State<Depresion>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Depresion'),
+        title: Text('Depresión'),
         backgroundColor: Theme.of(context).primaryColor,
         actions: <Widget>[
           Row(
