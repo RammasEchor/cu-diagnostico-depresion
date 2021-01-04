@@ -89,9 +89,9 @@ class Registro2daPageState extends State<Registro2daPage>{
       _obtenUsuario(_correo).then((value){
         if(value.isNotEmpty){
           _idUsuario = value[0].id.toString();
-
-          Navigator.pushReplacementNamed(context, '/inicio',
-              arguments: {'idUsuario': _idUsuario, 'correo': _correo });
+          Navigator.pushNamedAndRemoveUntil(context, '/inicio', (route) => false, arguments: {
+            'idUsuario': _idUsuario, 'correo': _correo
+          });
         }
       });
     }

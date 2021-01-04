@@ -108,7 +108,7 @@ class InicioSesionState extends State<InicioSesion> {
           getPassword().then((value) {
             password = value;
             if (_password == password) {
-              Navigator.pushReplacementNamed(context, '/inicio', arguments: {
+              Navigator.pushNamedAndRemoveUntil(context, '/inicio', (route) => false, arguments: {
                 'idUsuario': _idUsuario, 'correo': _correo
               });
             } else {
