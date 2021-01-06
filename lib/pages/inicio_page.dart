@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:path_drawing/path_drawing.dart';
 import 'registro_page.dart';
 
+// Este widget es la pantalla principal
 class Inicio extends StatefulWidget {
   @override
   _InicioState createState() => _InicioState();
@@ -11,12 +12,16 @@ class Inicio extends StatefulWidget {
 class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
+    // Obtenemos los parametros que nos envían la pantalla de iniciar
+    // sesión o la de registro.
     final Map parametros = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+      // Escondemos la appbar por medio de color.
         backgroundColor: Colors.white,
+        // Sin división.
         elevation: 0.0,
         bottomOpacity: 0.0,
         iconTheme: IconThemeData(
@@ -28,7 +33,9 @@ class _InicioState extends State<Inicio> {
         correo: parametros['correo'],
         idUsuario: parametros['_idUsuario'],
       ),
+      // Custom paint ayuda a dibujar las lineas punteadas.
       body: CustomPaint(
+        // CurvePainter dibuja las lineas punteadas.
         painter: CurvePainter(),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -36,12 +43,14 @@ class _InicioState extends State<Inicio> {
             data: IconThemeData(
               color: Theme.of(context).primaryColor,
             ),
+            // Stack para poder dibujar encima los íconos.
             child: Stack(
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Titulos de información.
                     TituloInicio(
                       text: 'Centros de ayuda',
                       fontSize: 20.0,
@@ -64,7 +73,9 @@ class _InicioState extends State<Inicio> {
                     ),
                   ],
                 ),
+                // Ícono de ayuda (teléfono)
                 Positioned(
+                  // Esta es la posición relativa.
                   top: MediaQuery.of(context).size.height / 10,
                   left: MediaQuery.of(context).size.width / 10,
                   child: RawMaterialButton(
@@ -81,6 +92,7 @@ class _InicioState extends State<Inicio> {
                     ),
                   ),
                 ),
+                // Ícono de información (i)
                 Positioned(
                   top: MediaQuery.of(context).size.height / 15,
                   right: MediaQuery.of(context).size.width / 10,
@@ -98,11 +110,15 @@ class _InicioState extends State<Inicio> {
                     shape: CircleBorder(),
                   ),
                 ),
+                // Ícono de iniciar prueba (Puerta)
                 Positioned(
                   top: MediaQuery.of(context).size.height / 1.6,
                   right: MediaQuery.of(context).size.width / 6,
                   child: RawMaterialButton(
                     onPressed: () {
+                      // Tenemos que mandar el id de usuario para
+                      // saber de quien es al guardar la prueba en 
+                      // la base de datos.
                       Navigator.pushNamed(
                         context,
                         '/prueba',
@@ -116,11 +132,14 @@ class _InicioState extends State<Inicio> {
                     shape: CircleBorder(),
                   ),
                 ),
+                // Ícono de historial (lista)
                 Positioned(
                   top: MediaQuery.of(context).size.height / 1.7,
                   right: MediaQuery.of(context).size.width / 1.6,
                   child: RawMaterialButton(
                     onPressed: () {
+                      // Mandamos el id para saber de quien recuperar
+                      // las pruebas en la base de datos.
                       Navigator.pushNamed(
                         context,
                         '/historial',
@@ -143,6 +162,7 @@ class _InicioState extends State<Inicio> {
   }
 }
 
+// Esta clase dibuja las lineas punteadas.
 class CurvePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -181,6 +201,8 @@ class CurvePainter extends CustomPainter {
     dashedLine(start, ctr1, ctr2, end, canvas, paint);
   }
 
+  // Dibuja curvas de bezier punteadas de acuerdo a varios parámetros.
+  // start, ctr1, ctr2 y end son los puntos de la curva bezier.
   void dashedLine(Offset start, Offset ctr1, Offset ctr2, Offset end,
       Canvas canvas, Paint paint) {
     var path = Path();
@@ -202,10 +224,13 @@ class CurvePainter extends CustomPainter {
   }
 }
 
+// Es el menú hamburgesa.
 class Anvorgesa extends StatelessWidget {
   final String correo;
   final String idUsuario;
 
+  // Utilizamos el correo para mostrarlo en
+  // la parte superior.
   const Anvorgesa({
     Key key,
     this.correo,
@@ -240,6 +265,7 @@ class Anvorgesa extends StatelessWidget {
           Container(
             child: Column(
               children: [
+                // Son las opciones del menú hamburgesa.
                 ListTile(
                   title: Text(
                     'Ayuda',
@@ -323,6 +349,10 @@ class Anvorgesa extends StatelessWidget {
   }
 }
 
+// Simplemente es una fila que muestra el correo al
+// inicio del menú hamburgesa.
+// La separé para que no se extendiera tanto el
+// árbol del texto.
 class TituloInicio extends StatelessWidget {
   final String text;
   final Function onPressed;
