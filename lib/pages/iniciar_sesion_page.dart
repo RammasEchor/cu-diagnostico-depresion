@@ -60,6 +60,8 @@ class InicioSesionState extends State<InicioSesion> {
                           encabezado: 'Correo electrónico',
                           oculto: false,
                           icono: Icon(Icons.mail_rounded),
+                          ///Guardamos el valor actual del campo de texto, y lo
+                          ///almacenamos en la variable _correo
                           onSaved: (input) => _correo = input,
                           ///Se ejecuta una validacion especial para el correo
                           validator: _validaCorreo,

@@ -5,10 +5,14 @@ class Resultados extends StatefulWidget {
   @override
   ResultadosState createState() => ResultadosState();
 }
-
+/**
+ * En esta clase se muestran los resultados de la prueba de depresion
+ */
 class ResultadosState extends State<Resultados> {
   @override
   Widget build(BuildContext context) {
+    ///Recibe como parametros: los puntos obtenidos, el nivel de depresion
+    ///caluclado y un mensaje a mandera de resumen de los resultados
     final Map parametros = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
@@ -20,7 +24,7 @@ class ResultadosState extends State<Resultados> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //Titulo
+                ///Titulo de "Tu resultados fueron"
                 Container(
                   padding: EdgeInsets.only(top: 10),
                   height: 65,
@@ -34,7 +38,7 @@ class ResultadosState extends State<Resultados> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                //Es el resultado
+                ///Se muestra el mensaje basandose en el nivel de depresion
                 SizedBox(
                   height: 90,
                   child: Text(
@@ -43,18 +47,19 @@ class ResultadosState extends State<Resultados> {
                     textAlign: TextAlign.justify,
                   ),
                 ),
-                //Almacena los rangos de depresion
+                ///Columna o grafica de los rangos de depresion, indicando los
+                ///tres niveles que se manejan: ninguno, moderado y severo
                 Container(
                   padding: EdgeInsets.only(top: 10),
                   width: MediaQuery.of(context).size.width,
                   child: Column(
-                    //mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Se obtuvieron los siguientes puntos de depresion:\n',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
+                      ///Se muestran los puntos que se obtuvieron
                       Text(
                         parametros['nivel'] +
                             ': ' +
@@ -64,6 +69,7 @@ class ResultadosState extends State<Resultados> {
                           fontSize: 18,
                         ),
                       ),
+                      ///Rango de depresion Severo
                       Container(
                         alignment: Alignment.center,
                         width: 200,
@@ -81,6 +87,7 @@ class ResultadosState extends State<Resultados> {
                           ],
                         ),
                       ),
+                      ///Rango de depresion Moderado
                       Container(
                         alignment: Alignment.center,
                         width: 200,
@@ -104,6 +111,7 @@ class ResultadosState extends State<Resultados> {
                           ],
                         ),
                       ),
+                      ///Rango de depresion Ninguno
                       Container(
                         alignment: Alignment.center,
                         width: 200,

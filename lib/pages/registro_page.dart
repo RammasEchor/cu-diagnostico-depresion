@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:diagnostico_depresion/clases/campo_texto.dart';
 
-
 enum sexos { femenino, masculino, otro }
 
 class Registro extends StatefulWidget{
