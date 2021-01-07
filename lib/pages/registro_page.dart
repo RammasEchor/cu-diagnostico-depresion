@@ -4,6 +4,8 @@ import 'package:diagnostico_depresion/clases/campo_texto.dart';
 
 enum sexos { femenino, masculino, otro }
 
+// Primera pantalla del registro;
+// Toma el nombre, la edad, y el sexo del usuario.
 class Registro extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -15,6 +17,7 @@ class RegistroState extends State<Registro>{
   int _edad;
   sexos _sexo = sexos.femenino;
 
+  // Utilizamos formKey para validar los campos.
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -30,6 +33,7 @@ class RegistroState extends State<Registro>{
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              // Nos lleva a la pantall de login.
               IconButton(
                 icon: Icon(
                   Icons.login,
@@ -69,9 +73,12 @@ class RegistroState extends State<Registro>{
                       encabezado: 'Nombre',
                       oculto: false,
                       icono: Icon(Icons.person_rounded),
+                      // formKey.save()
                       onSaved: (input) => _nombre = input,
+                      // formKey.validate()
                       validator: (input) => input.isEmpty ? "*Campo obligatorio" : null,
                     ),
+                    // Campo de la edad.
                     Container(
                       height: 160,
                       width: 160,
@@ -118,12 +125,16 @@ class RegistroState extends State<Registro>{
                                 ),
                               ),
                             ),
+                            // Si es entero la edad.
                             onSaved: (input) => _edad = int.parse(input),
+                            // Si tiene algún valor. Idealmente solamente se pueden
+                            // ingresar enteros.
                             validator: (input) => input.isEmpty ? "*Campo obligatorio" : null,
                           ),
                         ],
                       ),
                     ),
+                    // Opción múltiple para seleccionar el sexo.
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -204,9 +215,13 @@ class RegistroState extends State<Registro>{
     );
   }
 
+  // Al presionar el botón verde...
   void _registroSegundaParte(BuildContext context){
+    // Escuchamos si la forma de validar cada campo devuelve true.
     if(formKey.currentState.validate()){
+      // Guardamos en las variables.
       formKey.currentState.save();
+      // Pasamos los parámetros a la siguiente pantalla.
       Navigator.pushReplacementNamed(context, '/registro2page',
           arguments: {'nombre': _nombre, 'edad': _edad, 'sexo': _sexo});
     }
