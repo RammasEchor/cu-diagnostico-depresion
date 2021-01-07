@@ -2,12 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// Esta es la pantalla de historial que muestra todas
+// las pruebas hechas.
+// Cada prueba tiene una fecha y el resultado.
 class HistorialPruebas extends StatefulWidget {
   @override
   HistorialPruebasState createState() => HistorialPruebasState();
 }
 
 class HistorialPruebasState extends State<HistorialPruebas> {
+  // Base de datos.
   final databaseReference = FirebaseFirestore.instance;
 
   @override
@@ -47,19 +51,21 @@ class HistorialPruebasState extends State<HistorialPruebas> {
                         .where('id_usuario', isEqualTo: parametros['idUsuario'])
                         .snapshots(),
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      // Listamos todas las pruebas y las ponemos
+                      // en cards.
                       return new ListView.builder(
-                          itemCount: snapshot.data.docs.length,
-                          itemBuilder: (context, index) {
-                            return WidgetPrueba(
-                              fecha: _calculaFecha(snapshot.data.docs[index]
-                                  .data()["fecha"]
-                                  .toDate()),
-                              nivel: snapshot.data.docs[index].data()["nivel"],
-                              puntos:
-                                  snapshot.data.docs[index].data()["puntos"],
-                              id: snapshot.data.docs[index].id,
-                            );
-                          });
+                        itemCount: snapshot.data.docs.length,
+                        itemBuilder: (context, index) {
+                          return WidgetPrueba(
+                            fecha: _calculaFecha(snapshot.data.docs[index]
+                                .data()["fecha"]
+                                .toDate()),
+                            nivel: snapshot.data.docs[index].data()["nivel"],
+                            puntos: snapshot.data.docs[index].data()["puntos"],
+                            id: snapshot.data.docs[index].id,
+                          );
+                        },
+                      );
                     },
                   ),
                 ),
@@ -71,6 +77,7 @@ class HistorialPruebasState extends State<HistorialPruebas> {
     );
   }
 
+  // Parse de la fecha.
   String _calculaFecha(DateTime fecha) {
     String formatoFecha;
     formatoFecha = fecha.day.toString() +
@@ -86,6 +93,8 @@ class HistorialPruebasState extends State<HistorialPruebas> {
   }
 }
 
+// Este widget es un card donde poner la información de cada
+// prueba.
 class WidgetPrueba extends StatelessWidget {
   final String fecha;
   final String nivel;
@@ -205,6 +214,7 @@ class WidgetPrueba extends StatelessWidget {
     );
   }
 
+  // Buscamos y eliminamos. Si hay algún error lo mostramos.
   void _eliminaPrueba() {
     try {
       databaseReference.collection('pruebas').doc(id).delete();
