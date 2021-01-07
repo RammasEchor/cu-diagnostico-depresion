@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-///Representa la pagina en donde se muestran los centros de ayuda
+/**
+ * Representa la pagina en donde se muestran los centros de ayuda, y se puede
+ * acceder a las preguntas frecuentes sobre la depresión
+ */
 class Ayuda extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -35,10 +38,8 @@ class Ayuda extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
-                    //boxShadow: [BoxShadow(color: Colors.orange, offset: Offset(5, 5), blurRadius: 1.0, spreadRadius: 1.0)],
-                    border: Border.all(color: Theme.of(context).primaryColor)),
-                // height: 10,
-                //padding: EdgeInsets.all(//5),
+                    border: Border.all(color: Theme.of(context).primaryColor)
+                ),
                 child: Column(
                   children: [
                     CardCentroAyuda(
@@ -106,8 +107,6 @@ class Ayuda extends StatelessWidget {
                 height: 10,
               ),
               FlatButton(
-                //highlightColor: Theme.of(context).primaryColor,
-                //focusColor: Theme.of(context).accentColor,
                 splashColor: Theme.of(context).primaryColor,
                 height: 45,
                 color: Theme.of(context).accentColor,
@@ -131,7 +130,10 @@ class Ayuda extends StatelessWidget {
   }
 }
 
-///Widget para representar un centro de ayuda, con sus datos de contacto
+/**
+ * Widget para representar un centro de ayuda, con sus datos de contacto,
+ * recibe parametros de tipo String, que corresponden al nombre, direccion, telefono
+ */
 class CardCentroAyuda extends StatelessWidget {
   final String nombre;
   final String direccion;
@@ -186,8 +188,9 @@ class CardCentroAyuda extends StatelessWidget {
     );
   }
 }
-
-///Pantalla que contiene las preguntas mas frecuentes sobre la depresion
+/**
+ * Pantalla que contiene las preguntas más frecuentes sobre la depresión
+ */
 class PreguntasFrecuentes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -266,7 +269,10 @@ class PreguntasFrecuentes extends StatelessWidget {
   }
 }
 
-///Widget que representa una pregunta
+/**
+ * Widget que representa una pregunta, recibe como parametros dos cadenas,
+ * la pregunta y la respuesta
+ */
 class CardPregunta extends StatelessWidget {
   final String pregunta;
   final String respuesta;

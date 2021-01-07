@@ -3,19 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-///Esta pantalla muestra la informacion de ayuda sobre la depresion, como son:
-///sintomas, causas, tipos y tratamiento
+/**
+ * Esta pantalla muestra la información de ayuda sobre la depresión, como son:
+ * síntomas, causas, tipos y tratamiento.
+ * Corresponde a StatefulWidget ya que se necesita manipular y cambiar el estado
+ * del widget para mostrar los efectos deseados.
+ */
 class Depresion extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
     return Informacion();
   }
 }
+/**
+ * Corresponde a un estado, ya que necesitamos actualizar el estado del widget,
+ * para mostrar el efecto de los caruseles.
+ */
 class Informacion extends State<Depresion>{
+  ///Indices para recorrer la informacion en su lista correspondiente
   int _iCausas = 0;
   int _iTipo = 0;
   int _iTratamiento = 0;
 
+  ///Definimos la informacion que se muestra
+  ///Para ello, creamos listas de RichText para cada Card que se muestra
   List<RichText> causas = [
     RichText(
         textAlign: TextAlign.justify,
@@ -497,22 +508,32 @@ class Informacion extends State<Depresion>{
                 child: Column(
                   children: <Widget>[
                     CarouselSlider(
+                      ///Establecemos el carousel de una manera simple,
+                      ///evitando el desplazamiento infinito para evitar confusion,
+                      ///al momento de leer y comprender la información.
                       options: CarouselOptions(
                           enableInfiniteScroll: false,
                           enlargeCenterPage: true,
-                          //aspectRatio: 2.0,
                           viewportFraction: 1,
                           onPageChanged: (index, reason){
                             setState(() {
+                              ///Actualizamos el indice que corresponde a la diapositiva
+                              ///actual que se observa en el carousel.
                               _iCausas = index;
                             });
                           }
                       ),
                       items: causas.map((item) => Container(
+                        ///La información se encapsula en un contenedorm y se hace
+                        ///referencia mediante se mapea, recorre la lista de su
+                        ///respectiva información
                         child: item,
                         //color: Colors.orange,
                       )).toList(),
                     ),
+                    ///Este renglon, representa los circulos que indican en cual
+                    ///pagina o diapositiva del carousel se encuentra, para ello
+                    ///iluminamos del color primario el circulo apuntador.
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: causas.map((item) {
@@ -523,6 +544,8 @@ class Informacion extends State<Depresion>{
                           margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
+                            ///Verificamos si el indice es igual al elemento actual
+                            ///que se muestra en el carrusel, si se cumple, se ilumina
                             color: _iCausas == index
                                 ? Theme.of(context).primaryColor
                                 : Color.fromRGBO(0, 0, 0, 0.4),

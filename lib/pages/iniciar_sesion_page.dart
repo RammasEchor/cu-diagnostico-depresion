@@ -10,7 +10,6 @@ class InicioSesion extends StatefulWidget {
     return InicioSesionState();
   }
 }
-
 class InicioSesionState extends State<InicioSesion> {
   String _correo;
   String _password;
