@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Esta es la pantalla de historial que muestra todas
 // las pruebas hechas.
@@ -11,11 +11,14 @@ class HistorialPruebas extends StatefulWidget {
 }
 
 class HistorialPruebasState extends State<HistorialPruebas> {
-  // Base de datos.
+  ///Creamos la referencia a la base de datos, para poder relizar las operaciones
+  ///necesarias sobre la base de datos
   final databaseReference = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
+    ///Este arreglo contiene los parametros que recibe, en este caso solo recibe
+    ///el ID del usuario que inicio sesión o que creó su cuenta
     final Map parametros = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
@@ -45,6 +48,9 @@ class HistorialPruebasState extends State<HistorialPruebas> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * .75,
+                  ///Mostramos todas las pruebas que se encuentran en la base de
+                  ///datos y que cumplan la condicion de que todas tengan el mismo
+                  ///ID de usuario con respecto al que se recibió por parametro
                   child: StreamBuilder(
                     stream: databaseReference
                         .collection('pruebas')
@@ -77,7 +83,10 @@ class HistorialPruebasState extends State<HistorialPruebas> {
     );
   }
 
-  // Parse de la fecha.
+  /**
+   * A partir de la fecha que se almacena en la base de datos, desglozamos sus valores
+   * para poder mostrarlos con un fomrato entendible para el usuario
+   */
   String _calculaFecha(DateTime fecha) {
     String formatoFecha;
     formatoFecha = fecha.day.toString() +
@@ -93,8 +102,12 @@ class HistorialPruebasState extends State<HistorialPruebas> {
   }
 }
 
-// Este widget es un card donde poner la información de cada
-// prueba.
+/**
+ * Esta clase representa el diseño de una prueba realizada, la cual muestra
+ * la fecha en que se creo, el nivel de depresion y sus puntos que se obtuvieron,
+ * y un botón para eliminar dicha prueba.
+ * Los valores anteriores a excepcion del boton, se reciben por parametro
+ */
 class WidgetPrueba extends StatelessWidget {
   final String fecha;
   final String nivel;
@@ -157,7 +170,7 @@ class WidgetPrueba extends StatelessWidget {
                       child: Text(
                         'Nivel de depresión',
                         style: TextStyle(
-                          color: Colors.black, //Theme.of(context).primaryColor,
+                          color: Colors.black,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
@@ -187,7 +200,7 @@ class WidgetPrueba extends StatelessWidget {
                       child: Text(
                         'Puntos',
                         style: TextStyle(
-                          color: Colors.black, //Theme.of(context).primaryColor,
+                          color: Colors.black,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
@@ -214,7 +227,10 @@ class WidgetPrueba extends StatelessWidget {
     );
   }
 
-  // Buscamos y eliminamos. Si hay algún error lo mostramos.
+  /**
+   * Elimina la prueba que cumpla con el identificador unico que en ese momento
+   * se toco con el botón de eliminar.
+   */
   void _eliminaPrueba() {
     try {
       databaseReference.collection('pruebas').doc(id).delete();
