@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:diagnostico_depresion/clases/campo_texto.dart';
 
+/**
+ *
+ */
 class InicioSesion extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
